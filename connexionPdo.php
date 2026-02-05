@@ -2,7 +2,7 @@
 $hostnom = 'host=btssio.dedyn.io';
 $usernom = 'PETTERR';
 $password = '26092007';
-$bdd = 'biblio';
+$bdd = 'PETTERRAJ_bibliothèque';
 
 try {
 $monPdo = new PDO("mysql:$hostnom;dbname=$bdd;charset=utf8", $usernom, $password);
