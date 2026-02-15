@@ -10,7 +10,7 @@
 <div class="container mt-5">
   <div class="row pt-3">
     <div class="col-9"><h2>Liste des nationalités</h2></div>
-    <div class="col-3"><a href="formAjoutNationalite.php"class='btn btn-success'><i class="fas fa-plus-circle"></i>Créer une nationalités </a> </div>
+    <div class="col-3"><a href="formNationalite.php?action=Ajouter"class='btn btn-success'><i class="fas fa-plus-circle"></i>Créer une nationalités </a> </div>
 
   </div>
   <table class="table table-hover table-striped">
@@ -29,8 +29,8 @@
         echo "<td class='col-md-2'> $nationalite->num </td>";
         echo "<td class='col-md-8'>$nationalite->libelle</td>";
         echo "<td class='col-md-2'>
-            <a href='' class='btn btn-primary'><i class='fas fa-pen'></i> </a>
-          <a href='' class='btn btn-danger'><i class='far fa-trash-alt'></i> </a>
+          <a href='formNationalite.php?action=Modifier&num= $nationalite->num' class='btn btn-primary'><i class='fas fa-pen'></i> </a>
+          <a href='#modalSuppression 'data-toggle='modal'data-message=' Voulez vous supprimer cette nationalité ?' data-suppression='supprimerNationalite.php?num$nationalite->num' class='btn btn-danger'><i class='far fa-trash-alt'></i> </a>
           </td>";
           echo"</tr>";
         }
@@ -39,7 +39,7 @@
      
     </tbody>
   </table>
-
+  
 
 <?php include "footer.php";
 ?>
