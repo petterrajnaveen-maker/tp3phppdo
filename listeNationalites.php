@@ -1,9 +1,23 @@
   <?php include "header.php";
   include "connexionPdo.php";
   //liste des nationnalités
-  $texteRequete="select n.num, n.libelle as 'libNation', c.libelle as 'libContinent' from nationalite n, continent c where n.numContinent=c.num order by n.libelle";
-  $req=$monPdo->prepare($texteRequete);
+  $libelle= "";
+  $continent="Tous";
+  //Construction de requête
+$texteReq="select n.num, n.libelle as libNation, c.libelle as libContinent 
+           from nationalite n, continent c 
+           where n.numContinent=c.num";
 
+if(!empty($_GET)){
+  $libelle= $_GET['libelle'];
+  $continentSel=$_GET['continent'];
+    if($libelle != "") { $texteReq .= " and n.libelle like '%" . $libelle . "%'";}
+    if($continentSel != "Tous") { $texteReq .= " and c.num =" . $continentSel;}
+}
+
+$texteReq .= " order by n.libelle";
+
+  $req=$monPdo->prepare($texteReq);
   $req->setFetchMode(PDO::FETCH_OBJ);
   $req->execute();
   $lesNationalites=$req->fetchAll();
@@ -27,27 +41,6 @@
     $_SESSION['message']=[];
   }
   ?>
-  <div class="row mt-2"></div>
-  <form action="" method="get "class="border border-primary rounded p-3">
-      <div class="row">
-        <div class="col">
-           <input type="text" class='form-control' id='libelle' placeholder='Saisir le libellé' name='libelle' value= "<?php if($action == "Modifier"){echo $laNationnalite->libelle ;} ?>">
-        </div>
-        <div class="col">
-          <select name="continent" class="form-control">
-              <?php
-              foreach($lesContinents as $continent){
-                $selection=$continent->num == laNationnalite->numContinent ? 'selected' : '';
-               echo "<option value='$continent->num' $selection>$continent->libelle></option>";
-
-              }
-              ?>
-              </select>
-        </div>
-        <div class="col"></div>
-        <button type="submit" class="btn btn-success btn block"> Rechercher</button>
-      </div>
-  </form>
 
 <div class="container mt-5">
   <div class="row pt-3">
@@ -56,6 +49,30 @@
       <i class="fas fa-plus-circle"></i>Créer une nationalités </a> </div>
 
   </div>
+    
+        <form action="" method="get "class="border border-primary rounded p-3 mt-3 mb-3">
+            <div class="row">
+              <div class="col">
+                <input type="text" class='form-control' id='libelle' placeholder='Saisir le libellé' name='libelle' value= "<?php echo $libelle;?>">
+              </div>
+              
+              <div class="col">
+                <select name="continent" class="form-control">
+                    <?php
+                    echo "<option value='Tous'>Tous les continents </option>";
+                    foreach($lesContinents as $continent){
+                      $selection=$continent->num == $continentSel ? 'selected' : '';
+                    echo "<option value='$continent->num' $selection>$continent->libelle></option>";
+
+                    }
+                    ?>
+                    </select>
+              </div>
+              <div class="col"></div>
+              <button type="submit" class="btn btn-success btn block"> Rechercher</button>
+            </div>
+        </form>
+
   <table class="table table-hover table-striped">
     </div>
     <thead>

@@ -35,6 +35,7 @@
 
               }
               ?>
+              </select>
         </div>
         <input type="hidden" id="num" name="num" value="<?php if($action == "Modifier"){echo $laNationnalite->num;} ?>">
         <div class="row">
